@@ -7,13 +7,13 @@
 O **MauiAppEvento** foi desenvolvido como atividade prática da disciplina de **Programação Mobile / Desenvolvimento de Sistemas II (Agenda 15)**. 
 
 O foco principal do projeto foi a **evolução arquitetural** a partir da aplicação da Agenda 14, adaptando a estrutura de formulários, modelos de dados e regras de cálculo para um sistema de gestão e cadastro de eventos, alicerçado nos conceitos fundamentais da **Programação Orientada a Objetos (POO)** e do framework **.NET MAUI**:
-* **Separação em Camadas:** Organização estruturada entre regras de domínio (`Models/Evento.cs`) e apresentação visual (`Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`).
+* **Separação em Camadas:** Organização estruturada entre regras de domínio e apresentação visual.
 * **Modelo de Domínio (`Evento`):** Abstração das propriedades do evento (*Nome*, *Local*, *DataInicio*, *DataTermino*, *NumeroParticipantes*, *CustoPorParticipante*) com propriedades calculadas dinâmicas (`DuracaoEmDias` e `CustoTotal`).
 * **Manipulação de Datas e Períodos:** Uso das estruturas **`DateTime`** e **`TimeSpan`** para calcular a diferença exata em dias entre o início e o término do evento.
 * **Comunicação e Formatação entre Telas:** Compartilhamento de dados via **`BindingContext`** durante a navegação por pilha (`NavigationPage`) e formatação visual em XAML utilizando **`StringFormat`** (para datas em `dd/MM/yyyy` e moeda em `R$`).
 
-> 📌 **Nota sobre a Estrutura do Projeto e Estratégia de Desenvolvimento:**  
-> Durante as tentativas de criar e implementar um projeto do zero para a Agenda 15 (`MauiAppEvento`), ocorreram erros recorrentes de compilação, geração de arquivos intermediários (`*.g.cs`) e resolução de namespaces. Para contornar essas falhas e garantir o pleno funcionamento da aplicação, optou-se por **reaproveitar e atualizar os arquivos da estrutura anterior que não apresentavam erros de compilação**, refatorando-os para atender 100% aos requisitos da Agenda 15.
+> 📌 **Nota Importante sobre a Estrutura do Projeto:**  
+> Durante o desenvolvimento, não foi possível implementar e utilizar novos arquivos especificamente nomeados como `Models/Evento.cs` e visões de apresentação visual `Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`. A criação desses novos arquivos provocou erros de compilação persistentes no ambiente. Para contornar esses erros e garantir o pleno funcionamento da aplicação, **as novas funções da Agenda 15 foram implementadas adaptando diretamente os códigos dentro das páginas já existentes do projeto anterior**.
 
 ---
 
@@ -36,16 +36,14 @@ Neste projeto, a **Inteligência Artificial (IA)** foi adotada de forma estraté
 - **Controle de Versão:** Git / GitHub
 
 ```text
-MauiAppHotel/ (Adaptado para MauiAppEvento)
+MauiAppHotel/ (Projeto adaptado contendo a lógica e funções da Agenda 15)
 ├── Models/
-│   └── Evento.cs                 # Modelo de dados com regras de cálculo (DuracaoEmDias e CustoTotal)
-│   └── Hospedagem.cs  
-│   └── Suite.cs  
+│   └── Hospedagem.cs (contém a lógica e propriedades do modelo Evento)
 ├── Views/
-│   ├── CadastroEventoPage.xaml    # Formulário de entrada de dados do evento
-│   ├── CadastroEventoPage.xaml.cs # Lógica de validação e disparo da navegação
-│   ├── ResumoEventoPage.xaml      # Exibição dos dados do evento com Data Binding e StringFormat
-│   └── ResumoEventoPage.xaml.cs   # Lógica da tela de resumo (PopAsync)
+│   ├── ContratacaoHospedagem.xaml (contém o formulário de Cadastro de Evento)
+│   ├── ContratacaoHospedagem.xaml.cs
+│   ├── HospedagemContratada.xaml (contém a tela de Resumo do Evento)
+│   └── HospedagemContratada.xaml.cs
 ├── App.xaml.cs                    # Configuração da NavigationPage inicial
 └── MauiProgram.cs                 # Builder da aplicação .NET MAUI
 ```
@@ -61,9 +59,9 @@ MauiAppHotel/ (Adaptado para MauiAppEvento)
 3. **Informações Financeiras e de Público:**
    * Digite o **Número de Participantes** e o **Custo por Participante (R$)**.
 4. **Validações de Regras de Negócio:**
-   * Ao clicar no botão **"Cadastrar Evento"**, o sistema valida se a data de término é igual ou posterior à data de início. Caso contrário, um alerta orientativo é exibido.
-5. **Navegação para a Tela de Resumo (`ResumoEventoPage`):**
-   * Os dados preenchidos alimentam uma instância da classe `Evento`, enviada como `BindingContext` para a tela de resumo através de `Navigation.PushAsync`.
+   * Ao clicar no botão de cadastro, o sistema valida se a data de término é igual ou posterior à data de início. Caso contrário, um alerta orientativo é exibido.
+5. **Navegação para a Tela de Resumo:**
+   * Os dados preenchidos alimentam o modelo do evento, enviado como `BindingContext` para a tela de resumo através de `Navigation.PushAsync`.
 6. **Visualização dos Resultados Formatados:**
    * A tela de resumo exibe todas as informações organizadas, com destaque para a **Duração do Evento em Dias** (calculada via `TimeSpan`) e o **Custo Total** formatado em moeda nacional (`R$`).
 
@@ -73,12 +71,10 @@ MauiAppHotel/ (Adaptado para MauiAppEvento)
 
 Abaixo estão ilustrados os fluxos essenciais da aplicação:
 
-1. **Tela de Cadastro (`CadastroEventoPage`):** Formulário completo com seletores de data e campos numéricos.
+1. **Tela de Cadastro:** Formulário completo com seletores de data e campos numéricos.
 2. **Alerta de Validação de Datas:** Bloqueio de inserções com datas inconsistentes.
-3. **Tela de Resumo (`ResumoEventoPage`):** Exibição dos cálculos consolidados com cartões de destaque visual.
-   
- <img width="1440" height="744" alt="01" src="https://github.com/user-attachments/assets/0a9ab3f6-6fb2-4e7c-a38b-6fd2fbdcdb0f" />
-
+3. **Tela de Resumo:** Exibição dos cálculos consolidados com cartões de destaque visual.
+<img width="1440" height="744" alt="01" src="https://github.com/user-attachments/assets/9b48cc2d-9775-4492-9128-88003ab3c8a0" />
 
 ---
 
@@ -86,13 +82,13 @@ Abaixo estão ilustrados os fluxos essenciais da aplicação:
 
 Durante a execução da Agenda 15, diversos desafios de compilação e estruturação foram superados:
 
-1. **Dificuldade na Criação de Projeto do Zero e Estratégia de Contorno:**
-   * *Desafio:* Não foi possível criar e implementar um novo arquivo/projeto do zero para a entidade `Evento` sem disparar erros de build contínuos (`CS0103`, `CS0246`, `XLS0414`), pois o compilador perdia as referências dos componentes XAML gerados em `obj/`.
-   * *Solução:* Como alternativa técnica de contorno, atualizou-se a estrutura de arquivos da aplicação pré-existente (da Agenda 14) que não apresentava erros de compilação. Os modelos (`Hospedagem.cs` → `Evento.cs`) e visões foram refatorados mantendo a estabilidade da solução.
+1. **Impossibilidade de Implementação de Novos Nomes de Páginas (`Models/Evento.cs` e `Views/CadastroEventoPage.xaml` / `ResumoEventoPage.xaml`):**
+   * *Desafio:* Não foi possível criar e implementar novas páginas utilizando os nomes indicados na atividade (`Models/Evento.cs`, `Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`), pois a criação desses arquivos provocava erros críticos de compilação (`CS0103`, `CS0246`, `XLS0414`). O compilador do .NET MAUI perdia o vínculo com a diretiva `x:Class` e com a geração do `InitializeComponent` em `obj/`.
+   * *Solução:* Para contornar as falhas de compilação e garantir uma aplicação estável e funcional, **as novas funções da Agenda 15 foram implementadas adaptando diretamente o código das páginas anteriores que já compilavam perfeitamente**.
 
 2. **Conflito de Namespaces entre Projetos:**
-   * *Desafio:* Ao reaproveitar o projeto anterior, a alteração inconsistente dos namespaces no C# desalinhou a diretiva `x:Class` no XAML.
-   * *Solução:* Realinhamento estrito dos namespaces em todos os arquivos (`MauiAppHotel.Models` e `MauiAppHotel.Views`), seguido de limpeza completa das pastas `bin` e `obj`.
+   * *Desafio:* Ao refatorar o código, alterações de namespaces geraram desalinhamento com a diretiva `x:Class` do XAML.
+   * *Solução:* Realinhamento estrito dos namespaces em todos os arquivos C# e XAML, seguido de limpeza das pastas `bin` e `obj`.
 
 3. **Erros de Importação e Ambiguidade em `App.xaml.cs` (`CS0118` e `CS0246`):**
    * *Desafio:* O compilador confundia a propriedade `MainPage` com a classe `MainPage.xaml.cs` existente na raiz.
@@ -103,7 +99,7 @@ Durante a execução da Agenda 15, diversos desafios de compilação e estrutura
    * *Solução:* Finalização dos processos `adb.exe` e `java.exe` no Gerenciador de Tarefas do Windows e exclusão manual do diretório `obj`.
 
 5. **Tratamento de Alertas e Tipos Anuláveis (`CS0618` e `CS8618`):**
-   * *Desafio:* Avisos de descontinuação de `DisplayAlert` e alertas de propriedades de texto que aceitam nulo na model `Evento.cs`.
+   * *Desafio:* Avisos de descontinuação de `DisplayAlert` e alertas de propriedades de texto que aceitam nulo na model.
    * *Solução:* Adoção de `DisplayAlertAsync` e inicialização de propriedades de texto com `string.Empty`.
 
 ---
@@ -112,4 +108,5 @@ Durante a execução da Agenda 15, diversos desafios de compilação e estrutura
 
 A implementação da **Agenda 15** consolidou a transição para aplicações mobile totalmente orientadas a regras de negócio dinâmicas. 
 
-A combinação entre a manipulação de períodos com **`DateTime` / `TimeSpan`**, o cálculo automatizado de custos dentro da classe de modelo **`Evento`** e a passagem de parâmetros via **`BindingContext`** demonstra o poder da arquitetura desacoplada do **.NET MAUI**.
+A combinação entre a manipulação de períodos com **`DateTime` / `TimeSpan`**, o cálculo automatizado de custos dentro do modelo do evento e a passagem de parâmetros via **`BindingContext`** demonstra o poder da arquitetura desacoplada do **.NET MAUI**, superando os desafios de compilação com soluções práticas de contorno.
+

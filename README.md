@@ -12,40 +12,37 @@ O foco principal do projeto foi a **evolução arquitetural** a partir da aplica
 * **Manipulação de Datas e Períodos:** Uso das estruturas **`DateTime`** e **`TimeSpan`** para calcular a diferença exata em dias entre o início e o término do evento.
 * **Comunicação e Formatação entre Telas:** Compartilhamento de dados via **`BindingContext`** durante a navegação por pilha (`NavigationPage`) e formatação visual em XAML utilizando **`StringFormat`** (para datas em `dd/MM/yyyy` e moeda em `R$`).
 
-> 📌 **Nota Importante sobre a Estrutura do Projeto:**  
-> Durante o desenvolvimento, não foi possível implementar e utilizar novos arquivos especificamente nomeados como `Models/Evento.cs` e visões de apresentação visual `Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`. A criação desses novos arquivos provocou erros de compilação persistentes no ambiente. Para contornar esses erros e garantir o pleno funcionamento da aplicação, **as novas funções da Agenda 15 foram implementadas adaptando diretamente os códigos dentro das páginas já existentes do projeto anterior**.
-
----
-
-## 🤖 Uso da Inteligência Artificial no Desenvolvimento
-
-Neste projeto, a **Inteligência Artificial (IA)** foi adotada de forma estratégica como **ferramenta de apoio ao desenvolvedor (Pair Programming / Copiloto)**, contribuindo diretamente nas seguintes etapas:
-
-* **Diagnóstico e Resolução de Erros de Build:** Análise detalhada de logs de compilação complexos (erros `CS0103`, `CS0246`, `XLS0414` e exceção de IO `XARDF7024`), identificando rapidamente divergências entre namespaces C# e diretivas `x:Class` no XAML.
-* **Modernização e Refatoração de Código:** Apoio na transição de chamadas obsoletas (`DisplayAlert` para `DisplayAlertAsync`) e tratamento de avisos de referência nula (`CS8618`).
-* **Resolução de Conflitos de Plataforma Android/Windows:** Diagnóstico de travamento de pastas temporárias em `obj/Debug/net10.0-android/` por processos como `adb.exe` e `java.exe`.
-* **Padronização Arquitetural e Documentação:** Auxílio no mapeamento da transição entre Agenda 14 e Agenda 15, bem como na estruturação da documentação técnica para o repositório no GitHub.
+> 📌 **Nota Importante sobre a Estrutura do Projeto :**  
+> Conforme comprovado pela análise da estrutura física de diretórios conforme arquivo em anexo no repositório (**`ARVOREv3.txt`**), a tentativa inicial de criar zero novos arquivos com nomes específicos (`Models/Evento.cs`, `Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`) gerou falhas de compilação contínuas e desalinhamento de arquivos intermediários (`*.g.cs`). Esse processo de depuração resultou no catalogamento de **mais de 100 erros de compilação e build conforme anexo no repositorio na planilha `LISTA DE ERROS.xlsx`**, consumindo **mais de 60% do tempo total do projeto**. Para contornar essas falhas e garantir a entrega de uma aplicação 100% estável e funcional, **a lógica e as funções da Agenda 15 foram implementadas adaptando diretamente os códigos dentro dos arquivos físicos já compilados do projeto anterior** (`MauiAppHotel.csproj`, `Hospedagem.cs`, `ContratacaoHospedagem.xaml` e `HospedagemContratada.xaml`).
 
 ---
 
 ## 🛠️ Tecnologias e Ferramentas 
 
 - **Linguagem:** C# (.NET MAUI)
-- **Framework:** .NET MAUI / .NET 10 / .NET 8
+- **Framework:** .NET MAUI / .NET 10 / .NET 8 (Targets: Windows, Android, iOS, MacCatalyst)
 - **IDE:** Visual Studio Community
+- **Documentação de Erros:** Planilha `LISTA DE ERROS.xlsx` (mapeamento de mais de 100 erros de compilação)
+- **Mapeamento de Estrutura:** Arquivo `ARVOREv3.txt` (estrutura física final da solução `AGENDA15C\MauiAppHotel`)
 - **Controle de Versão:** Git / GitHub
 
 ```text
-MauiAppHotel/ (Projeto adaptado contendo a lógica e funções da Agenda 15)
+C:\Dev_Projetos\AGENDA15C\MauiAppHotel/ (Estrutura física confirmada em ARVOREv3.txt)
+├── MauiAppHotel.csproj            # Projeto .NET MAUI principal
+├── App.xaml / App.xaml.cs          # Inicialização da NavigationPage
+├── AppShell.xaml / AppShell.xaml.cs
+├── MauiProgram.cs                 # Builder da aplicação
 ├── Models/
-│   └── Hospedagem.cs (contém a lógica e propriedades do modelo Evento)
+│   ├── Hospedagem.cs              # Contém a lógica de dados do Evento (Nome, Datas, Participantes, CustoTotal)
+│   └── Suite.cs                   # Estrutura auxiliar de suporte
 ├── Views/
-│   ├── ContratacaoHospedagem.xaml (contém o formulário de Cadastro de Evento)
-│   ├── ContratacaoHospedagem.xaml.cs
-│   ├── HospedagemContratada.xaml (contém a tela de Resumo do Evento)
-│   └── HospedagemContratada.xaml.cs
-├── App.xaml.cs                    # Configuração da NavigationPage inicial
-└── MauiProgram.cs                 # Builder da aplicação .NET MAUI
+│   ├── ContratacaoHospedagem.xaml   # Interface XAML do Cadastro de Evento
+│   ├── ContratacaoHospedagem.xaml.cs# Code-behind com validações e DateTime/TimeSpan
+│   ├── HospedagemContratada.xaml    # Interface XAML da Tela de Resumo do Evento
+│   ├── HospedagemContratada.xaml.cs # Code-behind com BindingContext do evento
+│   ├── SobrePage.xaml              # Tela informativa adicional
+│   └── SobrePage.xaml.cs
+└── bin / obj                      # Cache e artefatos de compilação multi-plataforma
 ```
 
 ---
@@ -74,7 +71,6 @@ Abaixo estão ilustrados os fluxos essenciais da aplicação:
 1. **Tela de Cadastro:** Formulário completo com seletores de data e campos numéricos.
 2. **Alerta de Validação de Datas:** Bloqueio de inserções com datas inconsistentes.
 3. **Tela de Resumo:** Exibição dos cálculos consolidados com cartões de destaque visual.
-<img width="1440" height="744" alt="01" src="https://github.com/user-attachments/assets/9b48cc2d-9775-4492-9128-88003ab3c8a0" />
 
 ---
 
@@ -82,25 +78,38 @@ Abaixo estão ilustrados os fluxos essenciais da aplicação:
 
 Durante a execução da Agenda 15, diversos desafios de compilação e estruturação foram superados:
 
-1. **Impossibilidade de Implementação de Novos Nomes de Páginas (`Models/Evento.cs` e `Views/CadastroEventoPage.xaml` / `ResumoEventoPage.xaml`):**
-   * *Desafio:* Não foi possível criar e implementar novas páginas utilizando os nomes indicados na atividade (`Models/Evento.cs`, `Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`), pois a criação desses arquivos provocava erros críticos de compilação (`CS0103`, `CS0246`, `XLS0414`). O compilador do .NET MAUI perdia o vínculo com a diretiva `x:Class` e com a geração do `InitializeComponent` em `obj/`.
-   * *Solução:* Para contornar as falhas de compilação e garantir uma aplicação estável e funcional, **as novas funções da Agenda 15 foram implementadas adaptando diretamente o código das páginas anteriores que já compilavam perfeitamente**.
+1. **Conflito de Namespaces entre Projetos (`CS0103` e `XLS0414`):**
+   * *Desafio:* Ao reaproveitar a estrutura do projeto anterior (`MauiAppHotel`), a alteração de nomes no C# causou a perda de ligação com a diretiva `x:Class` no XAML, impedindo a criação dos arquivos parciais `*.g.cs` e gerando erros de controles "não encontrados".
+   * *Solução:* Realinhamento estrito dos namespaces (`MauiAppHotel` ou `MauiAppEvento`) entre os arquivos XAML e `.xaml.cs`, seguido de limpeza das pastas `bin` e `obj`.
 
-2. **Conflito de Namespaces entre Projetos:**
-   * *Desafio:* Ao refatorar o código, alterações de namespaces geraram desalinhamento com a diretiva `x:Class` do XAML.
-   * *Solução:* Realinhamento estrito dos namespaces em todos os arquivos C# e XAML, seguido de limpeza das pastas `bin` e `obj`.
-
-3. **Erros de Importação e Ambiguidade em `App.xaml.cs` (`CS0118` e `CS0246`):**
+2. **Erros de Importação e Ambiguidade em `App.xaml.cs` (`CS0118` e `CS0246`):**
    * *Desafio:* O compilador confundia a propriedade `MainPage` com a classe `MainPage.xaml.cs` existente na raiz.
    * *Solução:* Adição das diretivas `using Microsoft.Maui.Controls;` e declaração explícita `this.MainPage = new NavigationPage(...)`.
 
-4. **Bloqueio de Arquivos na Compilação Android (`XARDF7024`):**
+3. **Bloqueio de Arquivos na Compilação Android (`XARDF7024`):**
    * *Desafio:* O erro `System.IO.IOException: A pasta não está vazia` bloqueava a tarefa de limpeza no SDK Android.
    * *Solução:* Finalização dos processos `adb.exe` e `java.exe` no Gerenciador de Tarefas do Windows e exclusão manual do diretório `obj`.
 
-5. **Tratamento de Alertas e Tipos Anuláveis (`CS0618` e `CS8618`):**
-   * *Desafio:* Avisos de descontinuação de `DisplayAlert` e alertas de propriedades de texto que aceitam nulo na model.
+4. **Tratamento de Alertas e Tipos Anuláveis (`CS0618` e `CS8618`):**
+   * *Desafio:* Avisos de descontinuação de `DisplayAlert` e alertas de propriedades de texto que aceitam nulo na model `Evento.cs`.
    * *Solução:* Adoção de `DisplayAlertAsync` e inicialização de propriedades de texto com `string.Empty`.
+
+5. **Mapeamento de Mais de 100 Erros e Tempo de Resolução (`LISTA DE ERROS.xlsx`):**
+   * *Desafio:* A transição e compilação do projeto em ambiente multi-alvo (`net10.0-android`, `net10.0-windows`, `net10.0-ios`, `net10.0-maccatalyst`, visíveis em `bin/Debug/` da `ARVOREv3.txt`) geraram mais de 100 mensagens de erro e avisos, registradas na planilha **`LISTA DE ERROS.xlsx`**. Essa investigação consumiu **mais de 60% do tempo total do projeto**.
+   * *Solução:* Isolamento e resolução dos erros críticos de namespace, permitindo a execução limpa da aplicação nas plataformas-alvo.
+
+6. **Bloqueio de Arquivos na Compilação Android (`XARDF7024`):**
+   * *Evidência em `ARVOREv3.txt`:* A árvore exibe uma extensa estrutura em `obj/Debug/net10.0-android/lp/` com mais de 80 pastas de bibliotecas e recursos do Android.
+   * *Desafio:* O processo `adb.exe` e o indexador do Windows travavam arquivos dentro dessas pastas, gerando a exceção `System.IO.IOException: A pasta não está vazia` (`XARDF7024`).
+   * *Solução:* Encerramento de processos em segundo plano pelo Gerenciador de Tarefas e exclusão limpa do diretório `obj/`.
+
+7. **Conflito e Sincronização de Namespaces (`CS0103` / `XLS0414`):**
+   * *Desafio:* A mistura entre declarações `MauiAppEvento` e o assembly registrado `MauiAppHotel` impedia a geração das classes parcial `*.g.cs`.
+   * *Solução:* Uniformização de namespaces no C# e no atributo `x:Class` do XAML.
+
+8. **Tratamento de Alertas e Tipos Anuláveis (`CS0618` e `CS8618`):**
+   * *Desafio:* Métodos obsoletos (`DisplayAlert`) e campos que aceitam nulo na model.
+   * *Solução:* Atualização para `DisplayAlertAsync` e inicialização padrão com `string.Empty`.
 
 ---
 
@@ -108,5 +117,4 @@ Durante a execução da Agenda 15, diversos desafios de compilação e estrutura
 
 A implementação da **Agenda 15** consolidou a transição para aplicações mobile totalmente orientadas a regras de negócio dinâmicas. 
 
-A combinação entre a manipulação de períodos com **`DateTime` / `TimeSpan`**, o cálculo automatizado de custos dentro do modelo do evento e a passagem de parâmetros via **`BindingContext`** demonstra o poder da arquitetura desacoplada do **.NET MAUI**, superando os desafios de compilação com soluções práticas de contorno.
-
+A combinação entre a manipulação de períodos com **`DateTime` / `TimeSpan`**, o cálculo automatizado de custos dentro da classe de modelo **`Evento`** e a passagem de parâmetros via **`BindingContext`** demonstra o poder da arquitetura desacoplada do **.NET MAUI**.

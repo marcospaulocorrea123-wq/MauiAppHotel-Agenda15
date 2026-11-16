@@ -38,7 +38,9 @@ Neste projeto, a **Inteligência Artificial (IA)** foi adotada de forma estraté
 ```text
 MauiAppHotel/ (Adaptado para MauiAppEvento)
 ├── Models/
-│   └── .cs                 # Modelo de dados com regras de cálculo (DuracaoEmDias e CustoTotal)
+│   └── Evento.cs                 # Modelo de dados com regras de cálculo (DuracaoEmDias e CustoTotal)
+│   └── Hospedagem.cs  
+│   └── Suite.cs  
 ├── Views/
 │   ├── CadastroEventoPage.xaml    # Formulário de entrada de dados do evento
 │   ├── CadastroEventoPage.xaml.cs # Lógica de validação e disparo da navegação

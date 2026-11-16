@@ -77,7 +77,8 @@ Abaixo estão ilustrados os fluxos essenciais da aplicação:
 2. **Alerta de Validação de Datas:** Bloqueio de inserções com datas inconsistentes.
 3. **Tela de Resumo (`ResumoEventoPage`):** Exibição dos cálculos consolidados com cartões de destaque visual.
    
- <img width="1428" height="746" alt="01" src="https://github.com/user-attachments/assets/918aec70-257e-4349-9100-4bf3331ad3fd" />
+ <img width="1440" height="744" alt="01" src="https://github.com/user-attachments/assets/0a9ab3f6-6fb2-4e7c-a38b-6fd2fbdcdb0f" />
+
 
 ---
 

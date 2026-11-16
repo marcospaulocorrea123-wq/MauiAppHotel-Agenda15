@@ -13,7 +13,7 @@ O foco principal do projeto foi a **evolução arquitetural** a partir da aplica
 * **Comunicação e Formatação entre Telas:** Compartilhamento de dados via **`BindingContext`** durante a navegação por pilha (`NavigationPage`) e formatação visual em XAML utilizando **`StringFormat`** (para datas em `dd/MM/yyyy` e moeda em `R$`).
 
 > 📌 **Nota Importante sobre a Estrutura do Projeto :**  
-> Conforme comprovado pela análise da estrutura física de diretórios conforme arquivo em anexo no repositório (**`ARVOREv3.txt`**), a tentativa inicial de criar zero novos arquivos com nomes específicos (`Models/Evento.cs`, `Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`) gerou falhas de compilação contínuas e desalinhamento de arquivos intermediários (`*.g.cs`). Esse processo de depuração resultou no catalogamento de **mais de 100 erros de compilação e build conforme anexo no repositorio na planilha `LISTA DE ERROS.xlsx`**, consumindo **mais de 60% do tempo total do projeto**. Para contornar essas falhas e garantir a entrega de uma aplicação 100% estável e funcional, **a lógica e as funções da Agenda 15 foram implementadas adaptando diretamente os códigos dentro dos arquivos físicos já compilados do projeto anterior** (`MauiAppHotel.csproj`, `Hospedagem.cs`, `ContratacaoHospedagem.xaml` e `HospedagemContratada.xaml`).
+> Conforme comprovado pela análise da estrutura física de diretórios, a tentativa inicial de criar novos arquivos com nomes específicos (`Models/Evento.cs`, `Views/CadastroEventoPage.xaml` e `Views/ResumoEventoPage.xaml`) gerou falhas de compilação contínuas e desalinhamento de arquivos intermediários (`*.classe.cs`). Esse processo de depuração resultou no catalogamento de **mais de 100 erros de compilação e build conforme anexo no repositorio na planilha `LISTA DE ERROS.xlsx`**, consumindo **mais de 60% do tempo total do projeto**. Para contornar essas falhas e garantir a entrega de uma aplicação 100% estável e funcional, **a lógica e as funções da Agenda 15 foram implementadas adaptando diretamente os códigos dentro dos arquivos físicos já compilados do projeto anterior** (`MauiAppHotel.csproj`, `Hospedagem.cs`, `ContratacaoHospedagem.xaml` e `HospedagemContratada.xaml`).
 
 ---
 
@@ -71,6 +71,8 @@ Abaixo estão ilustrados os fluxos essenciais da aplicação:
 1. **Tela de Cadastro:** Formulário completo com seletores de data e campos numéricos.
 2. **Alerta de Validação de Datas:** Bloqueio de inserções com datas inconsistentes.
 3. **Tela de Resumo:** Exibição dos cálculos consolidados com cartões de destaque visual.
+   
+<img width="1440" height="744" alt="01" src="https://github.com/user-attachments/assets/4d6eeedd-8588-45a8-ac80-cbfcbf066115" />
 
 ---
 
@@ -79,7 +81,7 @@ Abaixo estão ilustrados os fluxos essenciais da aplicação:
 Durante a execução da Agenda 15, diversos desafios de compilação e estruturação foram superados:
 
 1. **Conflito de Namespaces entre Projetos (`CS0103` e `XLS0414`):**
-   * *Desafio:* Ao reaproveitar a estrutura do projeto anterior (`MauiAppHotel`), a alteração de nomes no C# causou a perda de ligação com a diretiva `x:Class` no XAML, impedindo a criação dos arquivos parciais `*.g.cs` e gerando erros de controles "não encontrados".
+   * *Desafio:* Ao reaproveitar a estrutura do projeto anterior (`MauiAppHotel`), a alteração de nomes no C# causou a perda de ligação com a diretiva `x:Class` no XAML, impedindo a criação dos arquivos parciais `*.classe.cs` e gerando erros de controles "não encontrados".
    * *Solução:* Realinhamento estrito dos namespaces (`MauiAppHotel` ou `MauiAppEvento`) entre os arquivos XAML e `.xaml.cs`, seguido de limpeza das pastas `bin` e `obj`.
 
 2. **Erros de Importação e Ambiguidade em `App.xaml.cs` (`CS0118` e `CS0246`):**
@@ -98,18 +100,9 @@ Durante a execução da Agenda 15, diversos desafios de compilação e estrutura
    * *Desafio:* A transição e compilação do projeto em ambiente multi-alvo (`net10.0-android`, `net10.0-windows`, `net10.0-ios`, `net10.0-maccatalyst`, visíveis em `bin/Debug/` da `ARVOREv3.txt`) geraram mais de 100 mensagens de erro e avisos, registradas na planilha **`LISTA DE ERROS.xlsx`**. Essa investigação consumiu **mais de 60% do tempo total do projeto**.
    * *Solução:* Isolamento e resolução dos erros críticos de namespace, permitindo a execução limpa da aplicação nas plataformas-alvo.
 
-6. **Bloqueio de Arquivos na Compilação Android (`XARDF7024`):**
-   * *Evidência em `ARVOREv3.txt`:* A árvore exibe uma extensa estrutura em `obj/Debug/net10.0-android/lp/` com mais de 80 pastas de bibliotecas e recursos do Android.
-   * *Desafio:* O processo `adb.exe` e o indexador do Windows travavam arquivos dentro dessas pastas, gerando a exceção `System.IO.IOException: A pasta não está vazia` (`XARDF7024`).
-   * *Solução:* Encerramento de processos em segundo plano pelo Gerenciador de Tarefas e exclusão limpa do diretório `obj/`.
-
-7. **Conflito e Sincronização de Namespaces (`CS0103` / `XLS0414`):**
-   * *Desafio:* A mistura entre declarações `MauiAppEvento` e o assembly registrado `MauiAppHotel` impedia a geração das classes parcial `*.g.cs`.
+6. **Conflito e Sincronização de Namespaces (`CS0103` / `XLS0414`):**
+   * *Desafio:* A mistura entre declarações `MauiAppEvento` e o assembly registrado `MauiAppHotel` impedia a geração das classes parcial `*.classe.cs`.
    * *Solução:* Uniformização de namespaces no C# e no atributo `x:Class` do XAML.
-
-8. **Tratamento de Alertas e Tipos Anuláveis (`CS0618` e `CS8618`):**
-   * *Desafio:* Métodos obsoletos (`DisplayAlert`) e campos que aceitam nulo na model.
-   * *Solução:* Atualização para `DisplayAlertAsync` e inicialização padrão com `string.Empty`.
 
 ---
 

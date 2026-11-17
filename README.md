@@ -97,7 +97,7 @@ Durante a execução da Agenda 15, diversos desafios de compilação e estrutura
    * *Solução:* Adoção de `DisplayAlertAsync` e inicialização de propriedades de texto com `string.Empty`.
 
 5. **Mapeamento de Mais de 100 Erros e Tempo de Resolução (`LISTA DE ERROS.xlsx`):**
-   * *Desafio:* A transição e compilação do projeto em ambiente multi-alvo (`net10.0-android`, `net10.0-windows`, `net10.0-ios`, `net10.0-maccatalyst`, visíveis em `bin/Debug/` da `ARVOREv3.txt`) geraram mais de 100 mensagens de erro e avisos, registradas na planilha **`LISTA DE ERROS.xlsx`**. Essa investigação consumiu **mais de 60% do tempo total do projeto**.
+   * *Desafio:* A transição e compilação do projeto em ambiente multi-alvo (`net10.0-android`, `net10.0-windows`, `net10.0-ios`, `net10.0-maccatalyst`, geraram mais de 100 mensagens de erro e avisos, registradas na planilha **`LISTA DE ERROS.xlsx`**. Essa investigação consumiu **mais de 60% do tempo total do projeto**.
    * *Solução:* Isolamento e resolução dos erros críticos de namespace, permitindo a execução limpa da aplicação nas plataformas-alvo.
 
 6. **Conflito e Sincronização de Namespaces (`CS0103` / `XLS0414`):**
